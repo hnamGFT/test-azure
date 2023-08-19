@@ -1,0 +1,92 @@
+# Workflow Name
+name: Azure-Terraform-Plan-Wi
+
+on:
+  
+  # Triggers the workflow on push when both conditions (branch & paths) match
+   push:
+    branches:
+     - main
+    paths:
+     - 'azure/sample-resource/**'
+
+permissions:
+    id-token: write   
+    contents: read
+
+#  This workflow contains a single job called "Terraform"    
+jobs:
+  terraform:
+    name: "Terraform"
+    # job will run on ubuntu runner
+    runs-on: ubuntu-latest      
+    
+    env: 
+     WORKDIR: azure/sample-resource
+
+    # This job has the following steps
+    steps:
+
+      # Checks-out your repository 
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      # Github Authentication with Azure   
+      - uses: azure/login@v1
+        with:
+         client-id: ${{ secrets.AZURE_AD_CLIENT_ID }}
+         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+         tenant-id: ${{ secrets.AZURE_AD_TENANT_ID }}  
+
+      # Set up Terraform 
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      # Run Terraform commands 
+      - name: Terraform Init
+        id: init
+        env:
+         ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+         ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+         ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
+         ARM_USE_OIDC: true
+        run: |
+          cd $WORKDIR
+          terraform init
+        
+      - name: Terraform Validate
+        id: validate
+        env:
+         ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+         ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+         ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
+         ARM_USE_OIDC: true
+        run: |
+          cd $WORKDIR
+          terraform validate -no-color
+
+      - name: Terraform Plan
+        id: plan
+        env:
+         ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+         ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+         ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
+         ARM_USE_OIDC: true
+        run: |
+          cd $WORKDIR
+          terraform plan -no-color
+        
+      - name: Terraform Apply
+        id: apply
+        env:
+         ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+         ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+         ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
+         ARM_USE_OIDC: true
+        run: |
+          cd $WORKDIR
+          terraform apply -auto-approve
+    
+     
+    
+
