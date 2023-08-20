@@ -4,7 +4,7 @@ terraform {
     resource_group_name  = "my-rg"
     storage_account_name = "statefilestorageaccount"
     container_name       = "statefiles"
-    key                  = "myterraform.tfstate"
+    key                  = "terraform.tfstate"
   }
 }
 
