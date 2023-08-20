@@ -74,7 +74,7 @@ jobs:
          ARM_USE_OIDC: true
         run: |
           cd $WORKDIR
-          terraform force-unlock ac457a2f-d9fe-3872-83cf-d8ec0f56659d
+          terraform force-unlock ac457a2f-d9fe-3872-83cf-d8ec0f56659d -force
           terraform plan -no-color
         
       - name: Terraform Apply
