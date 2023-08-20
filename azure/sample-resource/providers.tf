@@ -13,3 +13,4 @@ provider "azurerm" {
   subscription_id = var.AZURE_SUBSCRIPTION_ID
   tenant_id       = var.AZURE_AD_TENANT_ID
 }
+//
