@@ -65,7 +65,7 @@ jobs:
           cd $WORKDIR
           terraform validate -no-color
 
-      - name: Terraform Plan
+      - name: Terraform Plans
         id: plan
         env:
          ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
