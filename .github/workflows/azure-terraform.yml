@@ -74,7 +74,7 @@ jobs:
          ARM_USE_OIDC: true
         run: |
           cd $WORKDIR
-          terraform plan 
+          terraform plan -no-color
         
       - name: Terraform Apply
         id: apply
