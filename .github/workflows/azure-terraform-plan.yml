@@ -23,9 +23,9 @@ jobs:
     
     env: 
      WORKDIR: azure/sample-resource
-     AZURE_AD_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
-     AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-     AZURE_AD_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
+      #AZURE_AD_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+      #AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      #AZURE_AD_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
 
     # This job has the following steps
     steps:
@@ -59,21 +59,27 @@ jobs:
         
       - name: Terraform Validate
         id: validate
+        env:
+          ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
+          ARM_USE_OIDC: true
         run: |
           cd $WORKDIR
-          terraform validate -no-color
+          terraform validate 
 
-      - name: Terraform Plans
+      - name: Terraform Plan
         id: plan
+        env:
+          ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
+          ARM_USE_OIDC: true
         run: |
           cd $WORKDIR
-          terraform plan -no-color
+          terraform plan 
         
-      - name: Terraform Apply
-        id: apply
-        run: |
-          cd $WORKDIR
-          terraform apply -auto-approve
+    
     
      
     
