@@ -1,4 +1,4 @@
-//....
+//..
 terraform {
   backend "azurerm" {
     resource_group_name  = "my-rg"
