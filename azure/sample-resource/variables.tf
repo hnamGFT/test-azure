@@ -1,6 +1,6 @@
 variable "rgname" {
   description = "Resource Group Name"
-  default     = "sunny-rg"
+  default     = "hassan-rg"
   type        = string
 }
 variable "location" {
