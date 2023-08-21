@@ -48,44 +48,24 @@ jobs:
       # Run Terraform commands 
       - name: Terraform Init
         id: init
-        env:
-         ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
-         ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-         ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
-         ARM_USE_OIDC: true
         run: |
           cd $WORKDIR
           terraform init
         
       - name: Terraform Validate
         id: validate
-        env:
-         ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
-         ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-         ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
-         ARM_USE_OIDC: true
         run: |
           cd $WORKDIR
           terraform validate -no-color
 
       - name: Terraform Plans
         id: plan
-        env:
-         ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
-         ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-         ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
-         ARM_USE_OIDC: true
         run: |
           cd $WORKDIR
           terraform plan -no-color
         
       - name: Terraform Apply
         id: apply
-        env:
-         ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
-         ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-         ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
-         ARM_USE_OIDC: true
         run: |
           cd $WORKDIR
           terraform apply -auto-approve
